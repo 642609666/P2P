@@ -8,21 +8,46 @@
     android:orientation="vertical"
     tools:context="com.atguigu.p2p.MainActivity">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/rl_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></RelativeLayout>
+        android:layout_weight="1"></FrameLayout>
 
     <RadioGroup
         android:id="@+id/rg_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="nihao "/>
+            android:id="@+id/rb_home"
+            style="@style/main_type"
+            android:button="@null"
+            android:drawableTop="@drawable/home_main_selector"
+            android:text="首页"
+            android:textColor="@drawable/text_main_color"/>
+
+        <RadioButton
+            android:id="@+id/rb_invest"
+            style="@style/main_type"
+            android:drawableTop="@drawable/invest_main_selector"
+            android:text="投资"
+            android:textColor="@drawable/text_main_color"/>
+
+        <RadioButton
+            android:id="@+id/rb_banking"
+            style="@style/main_type"
+            android:drawableTop="@drawable/banking_main_selector"
+            android:text="资产"
+            android:textColor="@drawable/text_main_color_red"/>
+
+        <RadioButton
+            android:id="@+id/rb_more"
+            style="@style/main_type"
+            android:drawableTop="@drawable/more_main_selector"
+            android:text="更多"
+            android:textColor="@drawable/text_main_color"/>
 
     </RadioGroup>
 </LinearLayout>
