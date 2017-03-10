@@ -3,8 +3,10 @@ package com.atguigu.p2p;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.atguigu.p2p.banking.BankingFragment;
 import com.atguigu.p2p.base.BaseFragment;
@@ -14,6 +16,8 @@ import com.atguigu.p2p.more.MoreFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -128,5 +132,32 @@ public class MainActivity extends AppCompatActivity {
         mList.add(new InvestFragment());
         mList.add(new BankingFragment());
         mList.add(new MoreFragment());
+    }
+
+    private boolean isBack = false;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            if (isBack) {
+                //退出
+                finish();
+            } else {
+                Toast.makeText(MainActivity.this, "再点击一次退出", Toast.LENGTH_SHORT).show();
+            }
+            isBack = true;
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isBack = false;
+                }
+            }, 2000);
+
+            //事件拦截
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
