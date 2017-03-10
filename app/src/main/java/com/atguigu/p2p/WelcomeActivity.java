@@ -36,6 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(ivMain);
 
+
         //设置八秒后自动进入主页面
         handler.postDelayed(new Runnable() {
             @Override
@@ -77,6 +78,7 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         handler.removeCallbacksAndMessages(null);
+        overridePendingTransition(R.anim.main_alpha_press, R.anim.main_alpha);
         finish();
     }
 }
