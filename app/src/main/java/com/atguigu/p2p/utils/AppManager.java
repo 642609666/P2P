@@ -22,7 +22,7 @@ public class AppManager {
 
     private static AppManager mAppManager = new AppManager();
 
-    public static AppManager getAppManager() {
+    public static AppManager getInstance() {
         return mAppManager;
     }
 
@@ -64,7 +64,7 @@ public class AppManager {
     /**
      * 移除所有的活动
      */
-    public void removeAllActivity() {
+    public void removeAll() {
 
         for (int i = mStack.size() - 1; i >= 0; i--) {
 
