@@ -1,6 +1,8 @@
 package com.atguigu.p2p;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +17,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+
 public class WelcomeActivity extends AppCompatActivity {
     @InjectView(R.id.tv_name)
     TextView tvName;
+    @InjectView(R.id.tv_number)
+    TextView tvNumber;
     private Handler handler = new Handler();
 
     @InjectView(R.id.iv_main)
@@ -29,11 +34,60 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         ButterKnife.inject(this);
 
+        //设置动画
+        setAnimation();
 
+        //设置版本号
+        setVersions();
+
+
+    }
+
+    /**
+     * 设置版本号
+     */
+    private void setVersions() {
+        tvNumber.setText(getVersions());
+    }
+
+    /**
+     * 获得版本号
+     *
+     * @return
+     */
+    public String getVersions() {
+        String versionName = null;
+
+        try {
+            //拿到包的管理器
+            PackageManager packageManager = getPackageManager();
+            //拿到包的管理信息
+            PackageInfo packageArchiveInfo = packageManager.getPackageInfo(getPackageName(), 0);
+
+            //得到版本 ,每次提交需要增加1
+            int versionCode = packageArchiveInfo.versionCode;
+
+            //得到版本号
+            versionName = packageArchiveInfo.versionName;
+            return versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        return "";
+    }
+
+    private void setAnimation() {
         //加载gif图画
         Glide.with(WelcomeActivity.this).load(R.drawable.dwonlo)
                 .asGif()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                //磁盘高速缓存策略
+                // DiskCacheStrategy.NONE 什么都不缓存
+                // DiskCacheStrategy.SOURCE 仅仅只缓存原来的全分辨率的图像。
+                // DiskCacheStrategy.RESULT 仅仅缓存最终的图像，即，降低分辨率后的（或者是转换后的）
+                // DiskCacheStrategy.ALL 缓存所有版本的图像（默认行为）
                 .into(ivMain);
 
 
@@ -52,8 +106,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 tvName.setVisibility(View.VISIBLE);
             }
         }, 3000);
-
-
     }
 
     @Override
@@ -78,7 +130,9 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         handler.removeCallbacksAndMessages(null);
-        overridePendingTransition(R.anim.main_alpha_press, R.anim.main_alpha);
+        overridePendingTransition(R.anim.main_alpha, R.anim.main_alpha_press);
         finish();
     }
+
+
 }
