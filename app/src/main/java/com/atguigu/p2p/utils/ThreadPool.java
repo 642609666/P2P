@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
  */
 
 public class ThreadPool {
-    public ThreadPool() {
+    private ThreadPool() {
     }
 
     public static ThreadPool getInstance() {
