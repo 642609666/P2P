@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
+import com.atguigu.p2p.utils.AppNetConfig;
+import com.atguigu.p2p.utils.LoadNet;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -31,6 +33,10 @@ public class HomeFragment extends BaseFragment {
     ImageView baseBack;
     @InjectView(R.id.base_setting)
     ImageView baseSetting;
+    @InjectView(R.id.tv_home_product)
+    TextView tvHomeProduct;
+    @InjectView(R.id.tv_home_yearrate)
+    TextView tvHomeYearrate;
 
     @Override
     public View initView() {
@@ -43,6 +49,23 @@ public class HomeFragment extends BaseFragment {
     protected void initData() {
 
         Log.e("TAG", "主页加载数据成功");
+        //从网络获取数据
+        initFromNet();
+    }
+
+    private void initFromNet() {
+        LoadNet.getDataNet(AppNetConfig.INDEX, new LoadNet.OnGetNet() {
+            @Override
+            public void onSuccess(String content) {
+                Log.e("TAG", "主页请求数据成功" + content);
+            }
+
+            @Override
+            public void onFailure(String content) {
+                Log.e("TAG", "主页请求数据失败" + content);
+
+            }
+        });
     }
 
     @Override
