@@ -1,6 +1,7 @@
 package com.atguigu.p2p.home;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,8 +11,10 @@ import com.alibaba.fastjson.JSON;
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
 import com.atguigu.p2p.home.bean.HomeBean;
+import com.atguigu.p2p.home.view.MyProgress;
 import com.atguigu.p2p.utils.AppNetConfig;
 import com.atguigu.p2p.utils.LoadNet;
+import com.atguigu.p2p.utils.ThreadPool;
 import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -44,6 +47,8 @@ public class HomeFragment extends BaseFragment {
     TextView tvHomeYearrate;
     @InjectView(R.id.banner)
     Banner banner;
+    @InjectView(R.id.home_progress)
+    MyProgress homeProgress;
 
     private HomeBean mHomeBean;
 
@@ -84,6 +89,8 @@ public class HomeFragment extends BaseFragment {
                 tvHomeProduct.setText(mHomeBean.getProInfo().getName());
                 tvHomeYearrate.setText(mHomeBean.getProInfo().getYearRate() + " %");
 
+                //设置圆形进度条展示
+                initProgress(mHomeBean.getProInfo());
                 //设置banner数据
                 initBanner();
             }
@@ -91,6 +98,28 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFailure(String content) {
                 Log.e("TAG", "主页请求数据失败" + content);
+
+            }
+        });
+    }
+
+    /**
+     * 设置进度条进度走
+     *
+     * @param proInfo
+     */
+    private void initProgress(final HomeBean.ProInfoBean proInfo) {
+        ThreadPool.getInstance().getExecutorService().execute(new Runnable() {
+            @Override
+            public void run() {
+                int progress = Integer.parseInt(proInfo.getProgress());
+
+                for (int i = 0; i <= progress; i++) {
+                    SystemClock.sleep(30);
+
+                    homeProgress.setProgress(i);
+                }
+
 
             }
         });
@@ -129,5 +158,4 @@ public class HomeFragment extends BaseFragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-
 }

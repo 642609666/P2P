@@ -1,5 +1,6 @@
 package com.atguigu.p2p.utils;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -11,6 +12,8 @@ import java.util.concurrent.Executors;
  */
 
 public class ThreadPool {
+    private Executor mGlobalThread;
+
     private ThreadPool() {
     }
 
@@ -37,4 +40,7 @@ public class ThreadPool {
         return executorService;
     }
 
+    public Executor getGlobalThread() {
+        return mGlobalThread;
+    }
 }

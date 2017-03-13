@@ -22,22 +22,22 @@
                 android:layout_height="150dp">
 
                 <com.youth.banner.Banner
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
                 <!--<android.support.v4.view.ViewPager-->
-                    <!--android:id="@+id/vp_home"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent">-->
+                <!--android:id="@+id/vp_home"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
                 <!--</android.support.v4.view.ViewPager>-->
                 <!--<com.viewpagerindicator.CirclePageIndicator-->
-                    <!--android:id="@+id/cp_home_indicator"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_horizontal|bottom"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--/>-->
+                <!--android:id="@+id/cp_home_indicator"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal|bottom"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--/>-->
 
             </FrameLayout>
 
@@ -108,11 +108,12 @@
             <!--atguigu:max="100"-->
             <!--atguigu:progress="70"-->
             <!--/>-->
-            <!--<com.p2pinvest002.ui.MyProgressBar
+            <com.atguigu.p2p.home.view.MyProgress
+                android:id="@+id/home_progress"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_marginTop="10dp">
-            </com.p2pinvest002.ui.MyProgressBar>-->
+                atguigu:sweepArc="160">
+            </com.atguigu.p2p.home.view.MyProgress>
 
             <LinearLayout
                 android:layout_width="wrap_content"
