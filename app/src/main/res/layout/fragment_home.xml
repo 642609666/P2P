@@ -7,7 +7,7 @@
 
     <include layout="@layout/base_head"></include>
 
-    <ScrollView
+    <com.atguigu.p2p.ui.MyScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -112,7 +112,7 @@
                 android:id="@+id/home_progress"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                atguigu:sweepArc="160">
+                atguigu:sweepArc="0">
             </com.atguigu.p2p.home.view.MyProgress>
 
             <LinearLayout
@@ -166,6 +166,6 @@
         </LinearLayout>
 
 
-    </ScrollView>
+    </com.atguigu.p2p.ui.MyScrollView>
 
 </LinearLayout>
