@@ -76,17 +76,35 @@ public class AppManager {
 
     /**
      * 移除当前的活动
-     *
      */
     public void removeatPresentActivity() {
-            Activity activity1 = mStack.get(mStack.size() - 1);
-            activity1.finish();
-            mStack.remove(activity1);
+        //获取最后一个元素
+        Activity activity1 = mStack.lastElement();
+        activity1.finish();
+        mStack.remove(activity1);
     }
+
+    /**
+     * 移除所有一样的活动
+     *
+     * @param activity
+     */
+    public void remove(Activity activity) {
+        if (activity != null) {
+            for (int i = mStack.size() - 1; i >= 0; i--) {
+                Activity currentActivity = mStack.get(i);
+                if (currentActivity == activity) {
+                    //currentActivity.finish();
+                    mStack.remove(currentActivity);
+                }
+            }
+        }
+    }
+
     /**
      * 获得所有数
      */
-    public int getStack(){
+    public int getStack() {
         return mStack.size();
     }
 }

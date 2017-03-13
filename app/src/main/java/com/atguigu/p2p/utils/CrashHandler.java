@@ -24,12 +24,12 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     public void init() {
         //把当前的类设置成默认的处理未捕获异常
-        Thread.setDefaultUncaughtExceptionHandler(this);
+      //  Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        Log.e("uncaughtException", "uncaughtException: ");
+        Log.e("uncaughtException", "uncaughtException: " + e.getMessage());
         Toast.makeText(UiUtils.getContext(), "aaa", Toast.LENGTH_SHORT).show();
         new Thread() {
             @Override

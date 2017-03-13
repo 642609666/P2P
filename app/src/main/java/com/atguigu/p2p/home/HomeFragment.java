@@ -1,22 +1,27 @@
 package com.atguigu.p2p.home;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
+import com.atguigu.p2p.home.bean.HomeBean;
 import com.atguigu.p2p.utils.AppNetConfig;
 import com.atguigu.p2p.utils.LoadNet;
+import com.bumptech.glide.Glide;
+import com.youth.banner.Banner;
+import com.youth.banner.loader.ImageLoader;
+import com.youth.banner.transformer.BackgroundToForegroundTransformer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
  * Created by ${
@@ -37,27 +42,50 @@ public class HomeFragment extends BaseFragment {
     TextView tvHomeProduct;
     @InjectView(R.id.tv_home_yearrate)
     TextView tvHomeYearrate;
+    @InjectView(R.id.banner)
+    Banner banner;
+
+    private HomeBean mHomeBean;
 
     @Override
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_home, null);
         Log.e("TAG", "主页加载视图成功");
+        ButterKnife.inject(this, view);
         return view;
     }
 
     @Override
     protected void initData() {
-
+        //设置视图数据以及隐藏
+        initViewShow();
         Log.e("TAG", "主页加载数据成功");
         //从网络获取数据
         initFromNet();
+
+
+    }
+
+
+    private void initViewShow() {
+        baseTitle.setText("主页");
+        baseBack.setVisibility(View.INVISIBLE);
+        baseSetting.setVisibility(View.INVISIBLE);
     }
 
     private void initFromNet() {
         LoadNet.getDataNet(AppNetConfig.INDEX, new LoadNet.OnGetNet() {
             @Override
             public void onSuccess(String content) {
-                Log.e("TAG", "主页请求数据成功" + content);
+                Log.e("TAG", "主页请求数据成功");
+
+                mHomeBean = JSON.parseObject(content, HomeBean.class);
+
+                tvHomeProduct.setText(mHomeBean.getProInfo().getName());
+                tvHomeYearrate.setText(mHomeBean.getProInfo().getYearRate() + " %");
+
+                //设置banner数据
+                initBanner();
             }
 
             @Override
@@ -68,13 +96,33 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.inject(this, rootView);
-        return rootView;
+    private void initBanner() {
+        List<String> image = new ArrayList<>();
+        Log.e("TAG", "mHomeBean.getImageArr().size()" + mHomeBean.getImageArr().size());
+        for (int i = 0; i < mHomeBean.getImageArr().size(); i++) {
+            image.add(AppNetConfig.BASE_URL + mHomeBean.getImageArr().get(i).getIMAURL());
+            Log.e("TAG", "home获取的图片数据" + AppNetConfig.BASE_URL + mHomeBean.getImageArr().get(i).getIMAURL());
+        }
+
+        //设置图片集合
+        //简单使用
+        banner.setImages(image)
+                .setImageLoader(new ImageLoader() {
+                    @Override
+                    public void displayImage(Context context, Object path, ImageView imageView) {
+                        //具体方法内容自己去选择，次方法是为了减少banner过多的依赖第三方包，所以将这个权限开放给使用者去选择
+                        Glide.with(context)
+                                .load(path)
+                                .crossFade()
+                                .into(imageView);
+                    }
+                })
+                .start();
+
+        //设置样式
+        banner.setBannerAnimation(BackgroundToForegroundTransformer.class);
     }
+
 
     @Override
     public void onDestroyView() {
@@ -82,15 +130,4 @@ public class HomeFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.base_back, R.id.base_setting})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.base_back:
-
-                break;
-            case R.id.base_setting:
-                Toast.makeText(mContext, "设置", Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
 }
