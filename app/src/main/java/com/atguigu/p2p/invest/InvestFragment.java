@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
-import com.atguigu.p2p.invest.adapger.InvesAdapger;
+import com.atguigu.p2p.invest.adapter.InvesAdapger;
 
 import java.util.ArrayList;
 import java.util.List;

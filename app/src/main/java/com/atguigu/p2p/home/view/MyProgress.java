@@ -155,7 +155,7 @@ public class MyProgress extends View {
         // 第四个参数是存放测量结果的容器
         mPaint.setColor(Color.parseColor("#0000FF"));
         mPaint.setStrokeWidth(0);
-        mPaint.setTextSize(UiUtils.dp2px(30));
+        mPaint.setTextSize(UiUtils.dp2px(15));
         mPaint.getTextBounds(text, 0, text.length(), rect);
         int tx = mMeasuredWidth / 2 - rect.width() / 2;
         int ty = mMeasuredHeight / 2 + rect.height() / 2;

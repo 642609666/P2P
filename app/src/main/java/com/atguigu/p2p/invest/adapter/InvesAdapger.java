@@ -1,4 +1,4 @@
-package com.atguigu.p2p.invest.adapger;
+package com.atguigu.p2p.invest.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
