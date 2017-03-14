@@ -18,6 +18,7 @@ public class AppNetConfig {
     * 第二 域名可以更灵活 当服务器出问题时 可以马上切换到另一个服务器
     * */
     //提供web应用的地址
+    //http://47.93.118.241:8081/P2PInvest/product
     public static final String BASE_URL = "http://" + HOST + ":8081/P2PInvest/";
 
     public static final String INDEX = BASE_URL + "index";//访问首页数据
