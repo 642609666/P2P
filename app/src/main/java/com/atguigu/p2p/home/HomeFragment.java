@@ -61,14 +61,10 @@ public class HomeFragment extends BaseFragment {
         return AppNetConfig.INDEX;
     }
 
-    public void initListener() {
-        //初始化title
-        baseTitle.setText("首页");
-        baseBack.setVisibility(View.INVISIBLE);
-        baseSetting.setVisibility(View.INVISIBLE);
-    }
 
     public void initData(String json) {
+        //设置标头
+        initTitle();
         HomeBean homeBean = JSON.parseObject(json, HomeBean.class);
         //Log.i("http", "success: "+homeBean.getImageArr().size());
         tvHomeYearrate.setText(homeBean.getProInfo().getYearRate() + "%");
@@ -76,6 +72,13 @@ public class HomeFragment extends BaseFragment {
         //注意：展示UI一定要判断是不是主线程
         initProgress(homeBean.getProInfo());
         initBanner(homeBean);
+    }
+
+    private void initTitle() {
+        //初始化title
+        baseTitle.setText("首页");
+        baseBack.setVisibility(View.INVISIBLE);
+        baseSetting.setVisibility(View.INVISIBLE);
     }
 
     private void initProgress(final HomeBean.ProInfoBean proInfo) {

@@ -52,12 +52,10 @@ public abstract class BaseFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         //初始化数据
         //initData();
-        //初始化监听
-        initListener();
+
         loadingPager.loadData();
     }
 
-    protected abstract void initListener();
 
     protected abstract void initData(String json);
 

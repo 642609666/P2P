@@ -1,5 +1,6 @@
 package com.atguigu.p2p.banking;
 
+import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
 
 /**
@@ -12,18 +13,13 @@ import com.atguigu.p2p.base.BaseFragment;
 public class BankingFragment extends BaseFragment {
 
     @Override
-    protected void initListener() {
-
-    }
-
-    @Override
     protected void initData(String json) {
 
     }
 
     @Override
     public int getLayoutid() {
-        return 0;
+        return R.layout.fragmemt_invest_all;
     }
 
     @Override

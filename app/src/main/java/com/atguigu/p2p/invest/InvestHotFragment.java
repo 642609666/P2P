@@ -1,4 +1,4 @@
-package com.atguigu.p2p.more;
+package com.atguigu.p2p.invest;
 
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
@@ -6,11 +6,11 @@ import com.atguigu.p2p.base.BaseFragment;
 /**
  * Created by ${
  * 李岩
- * QQ/微信: 642609666} on 3/10 0010.
- * 功能:更多
+ * QQ/微信: 642609666} on 3/14 0014.
+ * 功能:
  */
 
-public class MoreFragment extends BaseFragment {
+public class InvestHotFragment extends BaseFragment{
 
     @Override
     protected void initData(String json) {
