@@ -1,10 +1,6 @@
 package com.atguigu.p2p.invest;
 
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.TextView;
-
+import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
 
 /**
@@ -16,19 +12,23 @@ import com.atguigu.p2p.base.BaseFragment;
 
 public class InvestFragment extends BaseFragment {
 
-    private TextView mTextView;
     @Override
-    public View initView() {
-        mTextView = new TextView(mContext);
-        mTextView.setText("投资");
-        mTextView.setGravity(Gravity.CENTER);
-        Log.e("TAG", "投资加载视图成功");
-        return mTextView;
+    protected void initListener() {
+
     }
 
     @Override
-    protected void initData() {
+    protected void initData(String json) {
 
-        Log.e("TAG", "投资加载数据成功");
+    }
+
+    @Override
+    public int getLayoutid() {
+        return R.layout.fragment_invest;
+    }
+
+    @Override
+    public String getChildUrl() {
+        return null;
     }
 }

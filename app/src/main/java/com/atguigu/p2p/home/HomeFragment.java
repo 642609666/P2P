@@ -1,9 +1,11 @@
 package com.atguigu.p2p.home;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,12 +15,10 @@ import com.atguigu.p2p.base.BaseFragment;
 import com.atguigu.p2p.home.bean.HomeBean;
 import com.atguigu.p2p.home.view.MyProgress;
 import com.atguigu.p2p.utils.AppNetConfig;
-import com.atguigu.p2p.utils.LoadNet;
 import com.atguigu.p2p.utils.ThreadPool;
 import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
-import com.youth.banner.transformer.BackgroundToForegroundTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,117 +41,93 @@ public class HomeFragment extends BaseFragment {
     ImageView baseBack;
     @InjectView(R.id.base_setting)
     ImageView baseSetting;
-    @InjectView(R.id.tv_home_product)
-    TextView tvHomeProduct;
-    @InjectView(R.id.tv_home_yearrate)
-    TextView tvHomeYearrate;
     @InjectView(R.id.banner)
     Banner banner;
+    @InjectView(R.id.tv_home_product)
+    TextView tvHomeProduct;
     @InjectView(R.id.home_progress)
     MyProgress homeProgress;
+    @InjectView(R.id.tv_home_yearrate)
+    TextView tvHomeYearrate;
 
-    private HomeBean mHomeBean;
 
     @Override
-    public View initView() {
-        View view = View.inflate(mContext, R.layout.fragment_home, null);
-        Log.e("TAG", "主页加载视图成功");
-        ButterKnife.inject(this, view);
-        return view;
+    public int getLayoutid() {
+        return R.layout.fragment_home;
     }
 
     @Override
-    protected void initData() {
-        //设置视图数据以及隐藏
-        initViewShow();
-        Log.e("TAG", "主页加载数据成功");
-        //从网络获取数据
-        initFromNet();
-
-
+    public String getChildUrl() {
+        return AppNetConfig.INDEX;
     }
 
-
-    private void initViewShow() {
-        baseTitle.setText("主页");
+    public void initListener() {
+        //初始化title
+        baseTitle.setText("首页");
         baseBack.setVisibility(View.INVISIBLE);
         baseSetting.setVisibility(View.INVISIBLE);
     }
 
-    private void initFromNet() {
-        LoadNet.getDataNet(AppNetConfig.INDEX, new LoadNet.OnGetNet() {
-            @Override
-            public void onSuccess(String content) {
-                Log.e("TAG", "主页请求数据成功");
-
-                mHomeBean = JSON.parseObject(content, HomeBean.class);
-
-                tvHomeProduct.setText(mHomeBean.getProInfo().getName());
-                tvHomeYearrate.setText(mHomeBean.getProInfo().getYearRate() + " %");
-
-                //设置圆形进度条展示
-                initProgress(mHomeBean.getProInfo());
-                //设置banner数据
-                initBanner();
-            }
-
-            @Override
-            public void onFailure(String content) {
-                Log.e("TAG", "主页请求数据失败" + content);
-
-            }
-        });
+    public void initData(String json) {
+        HomeBean homeBean = JSON.parseObject(json, HomeBean.class);
+        //Log.i("http", "success: "+homeBean.getImageArr().size());
+        tvHomeYearrate.setText(homeBean.getProInfo().getYearRate() + "%");
+        tvHomeProduct.setText(homeBean.getProInfo().getName());
+        //注意：展示UI一定要判断是不是主线程
+        initProgress(homeBean.getProInfo());
+        initBanner(homeBean);
     }
 
-    /**
-     * 设置进度条进度走
-     *
-     * @param proInfo
-     */
     private void initProgress(final HomeBean.ProInfoBean proInfo) {
+
         ThreadPool.getInstance().getExecutorService().execute(new Runnable() {
             @Override
             public void run() {
                 int progress = Integer.parseInt(proInfo.getProgress());
-
                 for (int i = 0; i <= progress; i++) {
-                    SystemClock.sleep(30);
-
+                    SystemClock.sleep(20);
                     homeProgress.setProgress(i);
                 }
-
-
             }
         });
     }
 
-    private void initBanner() {
-        List<String> image = new ArrayList<>();
-        Log.e("TAG", "mHomeBean.getImageArr().size()" + mHomeBean.getImageArr().size());
-        for (int i = 0; i < mHomeBean.getImageArr().size(); i++) {
-            image.add(AppNetConfig.BASE_URL + mHomeBean.getImageArr().get(i).getIMAURL());
-            Log.e("TAG", "home获取的图片数据" + AppNetConfig.BASE_URL + mHomeBean.getImageArr().get(i).getIMAURL());
+    private void initBanner(HomeBean homeBean) {
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //转化成url集合
+        List<String> urls = new ArrayList<>();
+        for (int i = 0; i < homeBean.getImageArr().size(); i++) {
+            urls.add(AppNetConfig.BASE_URL + homeBean.getImageArr().get(i).getIMAURL());
         }
-
         //设置图片集合
-        //简单使用
-        banner.setImages(image)
-                .setImageLoader(new ImageLoader() {
-                    @Override
-                    public void displayImage(Context context, Object path, ImageView imageView) {
-                        //具体方法内容自己去选择，次方法是为了减少banner过多的依赖第三方包，所以将这个权限开放给使用者去选择
-                        Glide.with(context)
-                                .load(path)
-                                .crossFade()
-                                .into(imageView);
-                    }
-                })
-                .start();
-
-        //设置样式
-        banner.setBannerAnimation(BackgroundToForegroundTransformer.class);
+        banner.setImages(urls);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
+        return rootView;
+    }
+
+    public class GlideImageLoader extends ImageLoader {
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            /**
+             注意：
+             1.图片加载器由自己选择，这里不限制，只是提供几种使用方法
+             2.返回的图片路径为Object类型，由于不能确定你到底使用的那种图片加载器，
+             传输的到的是什么格式，那么这种就使用Object接收和返回，你只需要强转成你传输的类型就行，
+             切记不要胡乱强转！
+             */
+            //Picasso 加载图片简单用法
+            Glide.with(context).load((String) path).into(imageView);
+        }
+    }
 
     @Override
     public void onDestroyView() {

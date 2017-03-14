@@ -1,10 +1,5 @@
 package com.atguigu.p2p.banking;
 
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.TextView;
-
 import com.atguigu.p2p.base.BaseFragment;
 
 /**
@@ -16,19 +11,23 @@ import com.atguigu.p2p.base.BaseFragment;
 
 public class BankingFragment extends BaseFragment {
 
-    private TextView mTextView;
     @Override
-    public View initView() {
-        mTextView = new TextView(mContext);
-        mTextView.setText("资产");
-        mTextView.setGravity(Gravity.CENTER);
-        Log.e("TAG", "资产加载视图成功");
-        return mTextView;
+    protected void initListener() {
+
     }
 
     @Override
-    protected void initData() {
+    protected void initData(String json) {
 
-        Log.e("TAG", "资产加载数据成功");
+    }
+
+    @Override
+    public int getLayoutid() {
+        return 0;
+    }
+
+    @Override
+    public String getChildUrl() {
+        return null;
     }
 }

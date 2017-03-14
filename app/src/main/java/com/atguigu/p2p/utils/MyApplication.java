@@ -3,9 +3,9 @@ package com.atguigu.p2p.utils;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.util.Log;
 
-import java.util.logging.Handler;
 
 /**
  * Created by ${
@@ -44,9 +44,11 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         this.mContext = this;
+        mThreadId = android.os.Process.myPid();
+        mHandler = new Handler();
 
         //初始化未捕获异常 上线的时候才打开
-        CrashHandler.getInstance().init();
+        // CrashHandler.getInstance().init();
     }
 
     /**

@@ -40,7 +40,4 @@ public class ThreadPool {
         return executorService;
     }
 
-    public Executor getGlobalThread() {
-        return mGlobalThread;
-    }
 }
