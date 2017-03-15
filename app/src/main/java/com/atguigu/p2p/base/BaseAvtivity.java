@@ -3,6 +3,7 @@ package com.atguigu.p2p.base;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.atguigu.p2p.bean.DataBean;
 import com.atguigu.p2p.bean.UserInfo;
@@ -71,6 +72,7 @@ public abstract class BaseAvtivity extends AppCompatActivity {
         dataBean.setName(name);
         dataBean.setPhone(phone);
         userInfo.setData(dataBean);
+        Log.e("TAG", "读取" + name);
         return userInfo;
     }
 
@@ -86,6 +88,7 @@ public abstract class BaseAvtivity extends AppCompatActivity {
         edit.putString("iscredit", userInfo.getData().getIscredit());
         edit.putString("name", userInfo.getData().getName());
         edit.putString("phone", userInfo.getData().getPhone());
+        Log.e("TAG", "保存" + userInfo.getData().getName());
         edit.commit();
     }
 }

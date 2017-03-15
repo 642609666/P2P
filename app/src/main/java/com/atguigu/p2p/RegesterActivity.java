@@ -69,7 +69,7 @@ public class RegesterActivity extends BaseAvtivity {
                 finish();
                 break;
             case R.id.btn_register:
-                String name = etRegisterName.getText().toString().trim();
+                final String name = etRegisterName.getText().toString().trim();
                 final String phone = etRegisterNumber.getText().toString().trim();
                 final String password = etRegisterPwd.getText().toString().trim();
                 String pwdAgain = etRegisterPwdagain.getText().toString().trim();
@@ -88,6 +88,7 @@ public class RegesterActivity extends BaseAvtivity {
                 map.put("password", password);
                 map.put("phone", phone);
 
+                Log.e("TAG", "" + name);
                 LoadNet.getDataNet(AppNetConfig.REGISTER, map, new LoadNet.OnGetNet() {
                     @Override
                     public void onSuccess(String content) {
@@ -104,7 +105,7 @@ public class RegesterActivity extends BaseAvtivity {
 
                             //传递数据给登录界面
                             Intent intent = new Intent(RegesterActivity.this, LoginActivity.class);
-                            intent.putExtra("phone_password", phone + "," + password);
+                            intent.putExtra("phone_password", phone + "," + password + "," + name);
                             startActivity(intent);
                             finish();
                         }

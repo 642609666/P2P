@@ -46,6 +46,11 @@ public class LoginActivity extends BaseAvtivity {
     Button btnLogin;
     @InjectView(R.id.login_regitster_tv)
     TextView loginRegitsterTv;
+    /**
+     * 注册的数据传递到这里
+     * 0 账号  1 密码  2名字
+     */
+    private String[] mSplit;
 
     @Override
     protected int getLayoutId() {
@@ -65,10 +70,10 @@ public class LoginActivity extends BaseAvtivity {
         //接受注册时的数据
         String phone_password = getIntent().getStringExtra("phone_password");
         if (!TextUtils.isEmpty(phone_password)) {
-            String[] split = phone_password.split(",");
-            if (!TextUtils.isEmpty(split[0]) && !TextUtils.isEmpty(split[1])) {
-                loginEtNumber.setText(split[0]);
-                loginEtPwd.setText(split[1]);
+             mSplit = phone_password.split(",");
+            if (!TextUtils.isEmpty(mSplit[0]) && !TextUtils.isEmpty(mSplit[1])) {
+                loginEtNumber.setText(mSplit[0]);
+                loginEtPwd.setText(mSplit[1]);
             }
         }
     }
@@ -110,6 +115,12 @@ public class LoginActivity extends BaseAvtivity {
                         if (success) {
                             //解析数据
                             UserInfo userInfo = JSON.parseObject(content, UserInfo.class);
+                            //判断账号是否相同
+                            if(mSplit[0].equals(userInfo.getData().getPhone())) {
+                                //把名字传递过去
+                                userInfo.getData().setName(mSplit[2]);
+                                Log.e("TAG", "赋值名字进去");
+                            }
                             //保存数据到sp
                             seveUser(userInfo);
                             //跳转
