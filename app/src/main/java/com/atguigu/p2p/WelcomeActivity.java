@@ -145,6 +145,7 @@ public class WelcomeActivity extends BaseAvtivity {
             startActivity(intent);
             overridePendingTransition(R.anim.main_alpha, R.anim.main_alpha_press);
         }
+        //关闭页面
         finish();
     }
 

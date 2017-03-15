@@ -57,11 +57,19 @@ public class LoginActivity extends BaseAvtivity {
         baseBack.setVisibility(View.INVISIBLE);
         baseSetting.setVisibility(View.INVISIBLE);
         baseTitle.setText("登录");
+        String phone_password = getIntent().getStringExtra("phone_password");
     }
 
     @Override
     protected void initData() {
-
+        String phone_password = getIntent().getStringExtra("phone_password");
+        if (!TextUtils.isEmpty(phone_password)) {
+            String[] split = phone_password.split(",");
+            if (!TextUtils.isEmpty(split[0]) && !TextUtils.isEmpty(split[1])) {
+                loginEtNumber.setText(split[0]);
+                loginEtPwd.setText(split[1]);
+            }
+        }
     }
 
     @Override
@@ -95,7 +103,7 @@ public class LoginActivity extends BaseAvtivity {
 
                     @Override
                     public void onSuccess(String content) {
-                        Log.e("TAG", "注册界面成功Success" + content);
+                        Log.e("TAG", "登录界面成功Success" + content);
                         JSONObject jsonObject = JSON.parseObject(content);
                         Boolean success = jsonObject.getBoolean("success");
                         if (success) {
@@ -121,8 +129,9 @@ public class LoginActivity extends BaseAvtivity {
 
                 break;
             case R.id.login_regitster_tv:
-                // Intent intent = new Intent(this, .class);
-                //  startActivity(intent);
+                Intent intent = new Intent(this, RegesterActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
