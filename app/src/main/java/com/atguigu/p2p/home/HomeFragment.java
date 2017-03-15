@@ -1,11 +1,8 @@
 package com.atguigu.p2p.home;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.SystemClock;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +20,6 @@ import com.youth.banner.loader.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
@@ -88,7 +84,7 @@ public class HomeFragment extends BaseFragment {
             public void run() {
                 int progress = Integer.parseInt(proInfo.getProgress());
                 for (int i = 0; i <= progress; i++) {
-                    SystemClock.sleep(120);
+                    SystemClock.sleep(50);
                     homeProgress.setProgress(i);
                 }
             }
@@ -109,13 +105,6 @@ public class HomeFragment extends BaseFragment {
         banner.start();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.inject(this, rootView);
-        return rootView;
-    }
 
     public class GlideImageLoader extends ImageLoader {
         @Override
@@ -130,11 +119,5 @@ public class HomeFragment extends BaseFragment {
             //Picasso 加载图片简单用法
             Glide.with(context).load((String) path).into(imageView);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
     }
 }

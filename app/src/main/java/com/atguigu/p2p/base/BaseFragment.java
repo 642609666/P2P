@@ -24,7 +24,6 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //View view = View.inflate(getActivity(),getLayoutid(),null);
         loadingPager = new LoadingPager(getActivity()) {
             @Override
             protected void onSuccess(ResultState resultState, View sucessView) {

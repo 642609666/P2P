@@ -30,7 +30,7 @@ public class InvestAllFragment extends BaseFragment {
         mInvestAllBean = JSON.parseObject(json, InvestAllBean.class);
 
         if (mInvestAllBean != null && mInvestAllBean.getData().size() > 0) {
-            mInvestAllAdapter = new InvestAllAdapter(getContext(),mInvestAllBean.getData());
+            mInvestAllAdapter = new InvestAllAdapter(mInvestAllBean.getData());
             investAllLv.setAdapter(mInvestAllAdapter);
         }
     }

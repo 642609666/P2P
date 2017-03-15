@@ -1,5 +1,6 @@
 package com.atguigu.p2p.invest.viewholder;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -7,7 +8,6 @@ import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseHolder;
 import com.atguigu.p2p.home.view.MyProgress;
 import com.atguigu.p2p.invest.bean.InvestAllBean;
-import com.atguigu.p2p.utils.UiUtils;
 
 import butterknife.InjectView;
 
@@ -34,9 +34,22 @@ public class InvestViewHolder extends BaseHolder<InvestAllBean.DataBean> {
     @InjectView(R.id.p_progresss)
     MyProgress pProgresss;
 
+    public InvestViewHolder(Context context) {
+        super(context);
+    }
+    /**
+     * 初始化view布局
+     * UiUtils.getView(R.layout.adapter_invest_all);
+     *
+     * @return View
+     */
+    @Override
+    protected View initView() {
+        return View.inflate(mContext, R.layout.adapter_invest_all, null);
+    }
 
     /**
-     * 设置控件数据,
+     * 设置控件数据
      */
     @Override
     protected void setChildData() {
@@ -51,14 +64,7 @@ public class InvestViewHolder extends BaseHolder<InvestAllBean.DataBean> {
         pProgresss.setProgress(integer);
     }
 
-    /**
-     * 初始化view布局
-     * UiUtils.getView(R.layout.adapter_invest_all);
-     * @return View
-     */
-    @Override
-    protected View initView() {
-        //return View.inflate(mContext,R.layout.adapter_invest_all,null);
-        return UiUtils.getView(R.layout.adapter_invest_all);
-    }
+
+
 }
+

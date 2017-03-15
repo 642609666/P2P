@@ -32,6 +32,7 @@ public class MyScrollView extends ScrollView {
         super(context, attrs);
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
@@ -47,8 +48,8 @@ public class MyScrollView extends ScrollView {
 
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //保存第一次触摸的位置
-                lastY = eventY;
+                    //保存第一次触摸的位置
+                    lastY = eventY;
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (isNeedMove()) {
@@ -67,44 +68,45 @@ public class MyScrollView extends ScrollView {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                //当原来的位置有记录的时候并且动画是结束的时候再执行
-                if (!mRect.isEmpty() && isAnimtionEnd) {
-                    //获取原来的高度和现在拉动位置的差
-                    int translateY = childView.getBottom() - mRect.bottom;
-                    //平移动画所移动的距离
-                    TranslateAnimation ta = new TranslateAnimation(0, 0, 0, -translateY);
-                    ta.setDuration(200);
-                    ta.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                            //当动画开始执行的时候,需要设置成false
-                            isAnimtionEnd = false;
-                        }
 
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
+                    //当原来的位置有记录的时候并且动画是结束的时候再执行
+                    if (!mRect.isEmpty() && isAnimtionEnd) {
+                        //获取原来的高度和现在拉动位置的差
+                        int translateY = childView.getBottom() - mRect.bottom;
+                        //平移动画所移动的距离
+                        TranslateAnimation ta = new TranslateAnimation(0, 0, 0, -translateY);
+                        ta.setDuration(200);
+                        ta.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                //当动画开始执行的时候,需要设置成false
+                                isAnimtionEnd = false;
+                            }
 
-                            //清楚动画
-                            childView.clearAnimation();
-                            //回到原来记录的位置
-                            childView.layout(mRect.left, mRect.top, mRect.right, mRect.bottom);
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
 
-                            //把原来记录的位置清楚掉
-                            mRect.setEmpty();
-                            isAnimtionEnd = true;
-                        }
+                                //清楚动画
+                                childView.clearAnimation();
+                                //回到原来记录的位置
+                                childView.layout(mRect.left, mRect.top, mRect.right, mRect.bottom);
 
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
+                                //把原来记录的位置清楚掉
+                                mRect.setEmpty();
+                                isAnimtionEnd = true;
+                            }
 
-                        }
-                    });
-                    //开始动画
-                    childView.startAnimation(ta);
-                }
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+                        //开始动画
+                        childView.startAnimation(ta);
+                    }
                 break;
         }
-        return super.onTouchEvent(ev);
+        return true;
     }
 
     public boolean isNeedMove() {

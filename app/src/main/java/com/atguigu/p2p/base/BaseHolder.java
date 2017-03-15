@@ -1,5 +1,6 @@
 package com.atguigu.p2p.base;
 
+import android.content.Context;
 import android.view.View;
 
 import butterknife.ButterKnife;
@@ -14,6 +15,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseHolder<T> {
 
+    public final Context mContext;
     private View rootView;
     private T t;
 
@@ -32,7 +34,8 @@ public abstract class BaseHolder<T> {
     }
 
 
-    public BaseHolder() {
+    public BaseHolder(Context context) {
+        this.mContext = context;
         rootView = initView();
         ButterKnife.inject(this, rootView);
         rootView.setTag(this);
@@ -42,12 +45,14 @@ public abstract class BaseHolder<T> {
     public View getView() {
         return rootView;
     }
+
     /**
      * 设置控件数据
      * setChildData();
      * T t 得到对应的数据
      */
     protected abstract void setChildData();
+
     /**
      * 初始化view布局
      * UiUtils.getView(R.layout.adapter_invest_all);

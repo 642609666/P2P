@@ -16,7 +16,8 @@ import java.util.List;
  */
 
 public class InvestAllAdapter extends BaseListAdapter {
-    public InvestAllAdapter(Context context, List list) {
+
+    public InvestAllAdapter(List list) {
         super(list);
     }
 
@@ -27,7 +28,7 @@ public class InvestAllAdapter extends BaseListAdapter {
      * @return ViewHolder对象
      */
     @Override
-    public BaseHolder getHolder() {
-        return new InvestViewHolder();
+    public BaseHolder getHolder(Context context) {
+        return new InvestViewHolder(context);
     }
 }

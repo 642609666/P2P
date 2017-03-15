@@ -1,5 +1,6 @@
 package com.atguigu.p2p.base;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -45,7 +46,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
         BaseHolder baseHolder = null;
 
         if (convertView == null) {
-            baseHolder = getHolder();
+            baseHolder = getHolder(parent.getContext());
         } else {
             baseHolder = (BaseHolder) convertView.getTag();
         }
@@ -57,5 +58,5 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     /**
      * @return ViewHolder对象
      */
-    public abstract BaseHolder getHolder();
+    public abstract BaseHolder getHolder(Context context);
 }
