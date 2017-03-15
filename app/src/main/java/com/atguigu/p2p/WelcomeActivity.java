@@ -134,11 +134,21 @@ public class WelcomeActivity extends BaseAvtivity {
     }
 
     private void gotoMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
         handler.removeCallbacksAndMessages(null);
-        overridePendingTransition(R.anim.main_alpha, R.anim.main_alpha_press);
+        if (isRegister()) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.main_alpha, R.anim.main_alpha_press);
+        } else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.main_alpha, R.anim.main_alpha_press);
+        }
         finish();
+    }
+
+    private boolean isRegister() {
+        return false;
     }
 
 

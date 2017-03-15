@@ -27,10 +27,12 @@ public abstract class BaseAvtivity extends AppCompatActivity {
         initListener();
     }
 
+    protected abstract int getLayoutId();
+
     /**
-     * 设置监听
+     * 设置标头的数据
      */
-    protected abstract void initListener();
+    protected abstract void initTitle();
 
     /**
      * 设置数据
@@ -38,11 +40,10 @@ public abstract class BaseAvtivity extends AppCompatActivity {
     protected abstract void initData();
 
     /**
-     * 设置标头的数据
+     * 设置监听
      */
-    protected abstract void initTitle();
+    protected abstract void initListener();
 
-    protected abstract int getLayoutId();
 
     @Override
     protected void onDestroy() {

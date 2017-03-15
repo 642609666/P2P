@@ -2,6 +2,9 @@ package com.atguigu.p2p.utils;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import java.util.Map;
 
 /**
  * Created by ${
@@ -47,11 +50,58 @@ public class LoadNet {
         });
     }
 
+    public static void getDataNet(String url, Map<String, String> map, final OnGetNet onGetNet) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        if (map != null && !map.isEmpty()) {
+            RequestParams params = new RequestParams();
+
+
+            //map.keySet() 返回的是所有key 的值
+            for (String key : map.keySet()) {
+                //得到每个key对应的value的值
+                String value = map.get(key);
+                params.put(key, value);
+            }
+
+
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                /**
+                 * 请求成功
+                 * @param content
+                 */
+                @Override
+                public void onSuccess(String content) {
+                    super.onSuccess(content);
+                    //  Log.e("TAG", "主页请求数据成功" + content);
+                    if (onGetNet != null) {
+                        onGetNet.onSuccess(content);
+                    }
+                }
+
+                /**
+                 * 请求失败
+                 * @param error
+                 * @param content
+                 */
+                @Override
+                public void onFailure(Throwable error, String content) {
+                    super.onFailure(error, content);
+                    // Log.e("TAG", "主页请求数据成功" + content);
+                    onGetNet.onFailure(content);
+                }
+            });
+
+        } else {
+            getDataNet(url, onGetNet);
+        }
+    }
+
     private OnGetNet mOnGetNet;
 
     public void setOnGetNet(OnGetNet onGetNet) {
         mOnGetNet = onGetNet;
     }
+
 
     public interface OnGetNet {
         /**

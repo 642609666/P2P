@@ -13,14 +13,14 @@ import com.atguigu.p2p.base.BaseFragment;
 public class BankingFragment extends BaseFragment {
 
     @Override
+    public int getLayoutid() {
+        return R.layout.fragment_property;
+    }
+    @Override
     protected void initData(String json) {
 
     }
 
-    @Override
-    public int getLayoutid() {
-        return R.layout.fragmemt_invest_all;
-    }
 
     @Override
     public String getChildUrl() {
