@@ -62,6 +62,7 @@ public class LoginActivity extends BaseAvtivity {
 
     @Override
     protected void initData() {
+        //接受注册时的数据
         String phone_password = getIntent().getStringExtra("phone_password");
         if (!TextUtils.isEmpty(phone_password)) {
             String[] split = phone_password.split(",");
