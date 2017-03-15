@@ -1,5 +1,6 @@
 package com.atguigu.p2p.invest;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -7,6 +8,8 @@ import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
 import com.atguigu.p2p.utils.UiUtils;
 import com.atguigu.p2p.utils.randomLayout.StellarMap;
+
+import java.util.Random;
 
 import butterknife.InjectView;
 
@@ -20,6 +23,8 @@ import butterknife.InjectView;
 public class InvestRecommendFragment extends BaseFragment {
     @InjectView(R.id.invest_rec_sm)
     StellarMap investRecSm;
+    //随机
+    private Random mRandom = new Random();
     private String[] datas = new String[]{"新手福利计划", "财神道90天计划", "硅谷钱包计划", "30天理财计划(加息2%)", "180天理财计划(加息5%)", "月月升理财计划(加息10%)",
             "中情局投资商业经营", "大学老师购买车辆", "屌丝下海经商计划", "美人鱼影视拍摄投资", "Android培训老师自己周转", "养猪场扩大经营",
             "旅游公司扩大规模", "铁路局回款计划", "屌丝迎娶白富美计划"
@@ -104,6 +109,10 @@ public class InvestRecommendFragment extends BaseFragment {
             } else {
                 textView.setText(twoDatas[position]);
             }
+            int red = mRandom.nextInt(255);
+            int blue = mRandom.nextInt(255);
+            int greed = mRandom.nextInt(255);
+            textView.setTextColor(Color.rgb(red,blue,greed));
             return textView;
         }
 
