@@ -85,7 +85,9 @@ public class HomeFragment extends BaseFragment {
                 int progress = Integer.parseInt(proInfo.getProgress());
                 for (int i = 0; i <= progress; i++) {
                     SystemClock.sleep(50);
-                    homeProgress.setProgress(i);
+                    if(homeProgress != null) {
+                        homeProgress.setProgress(i);
+                    }
                 }
             }
         });

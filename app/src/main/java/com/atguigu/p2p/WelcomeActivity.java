@@ -3,22 +3,20 @@ package com.atguigu.p2p;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.atguigu.p2p.base.BaseAvtivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseAvtivity {
     @InjectView(R.id.tv_name)
     TextView tvName;
     @InjectView(R.id.tv_number)
@@ -29,18 +27,27 @@ public class WelcomeActivity extends AppCompatActivity {
     ImageView ivMain;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
-        ButterKnife.inject(this);
+    protected void initListener() {
 
+    }
+
+    @Override
+    protected void initData() {
         //设置动画
         setAnimation();
 
         //设置版本号
         setVersions();
+    }
 
+    @Override
+    protected void initTitle() {
 
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_welcome;
     }
 
     /**

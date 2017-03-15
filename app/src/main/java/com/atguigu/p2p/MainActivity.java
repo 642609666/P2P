@@ -1,14 +1,13 @@
 package com.atguigu.p2p;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.atguigu.p2p.banking.BankingFragment;
+import com.atguigu.p2p.base.BaseAvtivity;
 import com.atguigu.p2p.base.BaseFragment;
 import com.atguigu.p2p.home.HomeFragment;
 import com.atguigu.p2p.invest.InvestFragment;
@@ -19,10 +18,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseAvtivity {
 
     @InjectView(R.id.rl_main)
     FrameLayout rlMain;
@@ -40,19 +38,21 @@ public class MainActivity extends AppCompatActivity {
     private BaseFragment tempFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
-
-
-        //初始化fragment
+    protected void initData() {
         initFragment();
-        //设置监听
-        initListener();
     }
 
-    private void initListener() {
+    @Override
+    protected void initTitle() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+    @Override
+    public void initListener() {
         rgMain.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         //设置默认布局
         rgMain.check(R.id.rb_home);
     }
+
+
 
     /**
      * 切换fragment布局
@@ -125,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * 添加碎片布局
+     */
     private void initFragment() {
         mList = new ArrayList<>();
         mList.add(new HomeFragment());
@@ -136,6 +140,13 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isBack = false;
 
+    /**
+     * 设置点击返回键双击退出
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
