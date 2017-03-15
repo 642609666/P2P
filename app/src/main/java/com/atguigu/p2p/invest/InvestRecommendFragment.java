@@ -3,6 +3,7 @@ package com.atguigu.p2p.invest;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
@@ -103,7 +104,7 @@ public class InvestRecommendFragment extends BaseFragment {
          */
         @Override
         public View getView(int group, int position, View convertView) {
-            TextView textView = new TextView(getActivity());
+            final TextView textView = new TextView(getActivity());
             if (group == 0) {
                 textView.setText(oneDatas[position]);
             } else {
@@ -112,7 +113,19 @@ public class InvestRecommendFragment extends BaseFragment {
             int red = mRandom.nextInt(255);
             int blue = mRandom.nextInt(255);
             int greed = mRandom.nextInt(255);
-            textView.setTextColor(Color.rgb(red,blue,greed));
+            if (red >= 220 && blue >= 220 && greed >= 220) {
+                red = 155;
+                blue = 155;
+                greed = 155;
+            }
+            textView.setTextColor(Color.rgb(red, blue, greed));
+
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "" + textView.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
             return textView;
         }
 

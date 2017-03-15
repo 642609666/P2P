@@ -5,7 +5,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
@@ -96,7 +95,6 @@ public class InvestFragment extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
 
-                Toast.makeText(getActivity(), "hhhh", Toast.LENGTH_SHORT).show();
                 selectText(position);
             }
 
