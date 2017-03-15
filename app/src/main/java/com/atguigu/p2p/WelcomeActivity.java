@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -148,7 +149,11 @@ public class WelcomeActivity extends BaseAvtivity {
     }
 
     private boolean isRegister() {
-        return false;
+        String name = getUser().getData().getName();
+        if (TextUtils.isEmpty(name)) {
+            return false;
+        }
+        return true;
     }
 
 

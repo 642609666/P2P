@@ -1,5 +1,6 @@
 package com.atguigu.p2p;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +11,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.atguigu.p2p.base.BaseAvtivity;
+import com.atguigu.p2p.bean.UserInfo;
 import com.atguigu.p2p.utils.AppNetConfig;
 import com.atguigu.p2p.utils.LoadNet;
 
@@ -92,6 +96,20 @@ public class LoginActivity extends BaseAvtivity {
                     @Override
                     public void onSuccess(String content) {
                         Log.e("TAG", "注册界面成功Success" + content);
+                        JSONObject jsonObject = JSON.parseObject(content);
+                        Boolean success = jsonObject.getBoolean("success");
+                        if (success) {
+                            //解析数据
+                            UserInfo userInfo = JSON.parseObject(content, UserInfo.class);
+                            //保存数据到sp
+                            seveUser(userInfo);
+                            //跳转
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            //结束当前页面
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "账号不存在或者密码错误", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -108,4 +126,5 @@ public class LoginActivity extends BaseAvtivity {
                 break;
         }
     }
+
 }

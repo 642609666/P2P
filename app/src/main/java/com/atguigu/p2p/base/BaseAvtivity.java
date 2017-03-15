@@ -1,7 +1,11 @@
 package com.atguigu.p2p.base;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.atguigu.p2p.bean.DataBean;
+import com.atguigu.p2p.bean.UserInfo;
 
 import butterknife.ButterKnife;
 
@@ -49,5 +53,39 @@ public abstract class BaseAvtivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.reset(this);
+    }
+
+    /**
+     * 获取用户信息
+     */
+    public UserInfo getUser() {
+        SharedPreferences sp = getSharedPreferences("user_info", MODE_PRIVATE);
+        String imageurl = sp.getString("imageurl", "");
+        String iscredit = sp.getString("iscredit", "");
+        String name = sp.getString("name", "");
+        String phone = sp.getString("phone", "");
+        UserInfo userInfo = new UserInfo();
+        DataBean dataBean = new DataBean();
+        dataBean.setImageurl(imageurl);
+        dataBean.setIscredit(iscredit);
+        dataBean.setName(name);
+        dataBean.setPhone(phone);
+        userInfo.setData(dataBean);
+        return userInfo;
+    }
+
+    /**
+     * 保存用户信息
+     *
+     * @param userInfo
+     */
+    public void seveUser(UserInfo userInfo) {
+        SharedPreferences sp = getSharedPreferences("user_info", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("imageurl", userInfo.getData().getImageurl());
+        edit.putString("iscredit", userInfo.getData().getIscredit());
+        edit.putString("name", userInfo.getData().getName());
+        edit.putString("phone", userInfo.getData().getPhone());
+        edit.commit();
     }
 }
