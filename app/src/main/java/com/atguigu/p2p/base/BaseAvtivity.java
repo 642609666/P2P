@@ -1,7 +1,6 @@
 package com.atguigu.p2p.base;
 
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -93,6 +92,14 @@ public abstract class BaseAvtivity extends AppCompatActivity {
         edit.commit();
     }
 
-    public void savaImage(Bitmap bitmap) {
+    public void saveImage(Boolean isUpdate) {
+        SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
+        sp.edit().putBoolean("update", isUpdate).commit();
     }
+
+    public Boolean isUpdate() {
+        SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
+        return sp.getBoolean("update", false);
+    }
+
 }

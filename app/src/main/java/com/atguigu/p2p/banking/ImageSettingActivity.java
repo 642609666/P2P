@@ -25,6 +25,11 @@ import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseAvtivity;
 import com.atguigu.p2p.utils.BitmapUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import butterknife.InjectView;
 
 public class ImageSettingActivity extends BaseAvtivity {
@@ -41,6 +46,7 @@ public class ImageSettingActivity extends BaseAvtivity {
     TextView tvUserChange;
     @InjectView(R.id.btn_user_logout)
     Button btnUserLogout;
+    private File mFilesDir;
 
     @Override
     protected int getLayoutId() {
@@ -147,6 +153,43 @@ public class ImageSettingActivity extends BaseAvtivity {
         }
     }
 
+    private void savaImage(Bitmap bitmap) {
+        FileOutputStream os = null;
+        try {
+            //判断是否挂载了sd卡
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                //外部存储路径
+                mFilesDir = getExternalFilesDir("");
+            } else {
+                //内部存储路劲
+                mFilesDir = getFilesDir();
+            }
+
+            //全路径
+            File path = new File(mFilesDir, "p2p_icon.png");
+
+            //输出流
+            os = new FileOutputStream(path);
+            //第一个参数是图片的格式,第二个参数是图片的质量数值打的质量高,第三个是输出流
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+            //保存当前是否有更新
+            saveImage(true);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (os != null) {
+                    os.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
     @SuppressLint("NewApi")
     private String getPath(Uri uri) {
         int sdkVersion = Build.VERSION.SDK_INT;
@@ -212,6 +255,7 @@ public class ImageSettingActivity extends BaseAvtivity {
      * @param selectionArgs
      * @return
      */
+
     public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
         Cursor cursor = null;
         final String column = "_data";

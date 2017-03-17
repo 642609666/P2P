@@ -2,7 +2,9 @@ package com.atguigu.p2p.banking;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,11 @@ import com.atguigu.p2p.utils.BitmapUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -53,6 +60,7 @@ public class BankingFragment extends BaseFragment {
     TextView llTouziZhiguan;
     @InjectView(R.id.ll_zichan)
     TextView llZichan;
+    private File mPath;
 
     @Override
     public int getLayoutid() {
@@ -66,6 +74,7 @@ public class BankingFragment extends BaseFragment {
         Log.e("TAG", "" + user.getData().getName());
         //设置用户名
         tvMeName.setText(user.getData().getName());
+
         //设置图片
         Glide.with(getActivity())
                 // .load(AppNetConfig.BASE_URL + "/images/tx.png")
@@ -118,8 +127,55 @@ public class BankingFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), ReChargeActivity.class));
                 break;
             case R.id.withdraw: //提现
-                startActivity(new Intent(getActivity(),WithDrawActivity.class));
+                startActivity(new Intent(getActivity(), WithDrawActivity.class));
                 break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainActivity activity = (MainActivity) getActivity();
+        Boolean update = activity.isUpdate();
+        if (update) {
+            File filesDir = null;
+            FileInputStream is = null;
+            try {
+                //判断是否挂载了sd卡
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    //外部存储路径
+                    filesDir = getActivity().getExternalFilesDir("");
+                } else {
+                    //内部存储路劲
+                    filesDir = getActivity().getFilesDir();
+                }
+
+                //全路径
+                mPath = new File(filesDir, "p2p_icon.png");
+
+                if (mPath.exists()) {
+                    //输入流
+                    is = new FileInputStream(mPath);
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    Bitmap circleBitmap = BitmapUtils.circleBitmap(bitmap);
+                    ivMeIcon.setImageBitmap(circleBitmap);
+                    //保存当前是否有更新
+                    activity.saveImage(false);
+                }
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
     }
 }
