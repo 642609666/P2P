@@ -120,6 +120,7 @@ public class BankingFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), ReChargeActivity.class));
                 break;
             case R.id.withdraw: //提现
+                startActivity(new Intent(getActivity(),WithDrawActivity.class));
                 break;
         }
     }
