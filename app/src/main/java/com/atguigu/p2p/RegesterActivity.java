@@ -81,6 +81,10 @@ public class RegesterActivity extends BaseAvtivity {
                     Toast.makeText(RegesterActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(!password.equals(pwdAgain)) {
+                    Toast.makeText(RegesterActivity.this, "密码不一致", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 //请求服务器
                 Map<String, String> map = new HashMap<>();

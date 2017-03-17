@@ -47,10 +47,11 @@
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
-        <activity
-            android:name=".LoginActivity">
+        <activity android:name=".LoginActivity">
         </activity>
         <activity android:name=".RegesterActivity">
+        </activity>
+        <activity android:name=".banking.ReChargeActivity">
         </activity>
     </application>
 

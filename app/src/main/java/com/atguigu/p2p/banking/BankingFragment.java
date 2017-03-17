@@ -16,7 +16,6 @@ import com.atguigu.p2p.MainActivity;
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
 import com.atguigu.p2p.bean.UserInfo;
-import com.atguigu.p2p.utils.AppNetConfig;
 import com.atguigu.p2p.utils.BitmapUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
@@ -70,7 +69,8 @@ public class BankingFragment extends BaseFragment {
         tvMeName.setText(user.getData().getName());
         //设置图片
         Glide.with(getActivity())
-                .load(AppNetConfig.BASE_URL + "/images/tx.png")
+                // .load(AppNetConfig.BASE_URL + "/images/tx.png")
+                .load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1489605907571&di=e338ef47bc28e44dd102be1bd1de8c7c&imgtype=0&src=http%3A%2F%2Fimgtu.5011.net%2Fuploads%2Fcontent%2F20160803%2F1495791470209434.jpg")
                 .transform(new BitmapTransformation(getActivity()) {
                     @Override
                     protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
@@ -101,16 +101,26 @@ public class BankingFragment extends BaseFragment {
         return rootView;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
 
-    @OnClick(R.id.tv_settings)
-    public void onClick() {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivity(intent);
-        getActivity().finish();
+    @OnClick({R.id.ll_touzi, R.id.ll_touzi_zhiguan, R.id.ll_zichan, R.id.tv_settings, R.id.recharge, R.id.withdraw})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_settings:
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                break;
+            case R.id.ll_touzi:
+                break;
+            case R.id.ll_touzi_zhiguan:
+                break;
+            case R.id.ll_zichan:
+                break;
+            case R.id.recharge: //充值
+                startActivity(new Intent(getActivity(), ReChargeActivity.class));
+                break;
+            case R.id.withdraw: //提现
+                break;
+        }
     }
 }
