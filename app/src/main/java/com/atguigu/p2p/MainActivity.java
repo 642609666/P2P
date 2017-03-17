@@ -1,5 +1,9 @@
 package com.atguigu.p2p;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
@@ -39,6 +43,7 @@ public class MainActivity extends BaseAvtivity {
 
     @Override
     protected void initData() {
+        isGrantExternalRW(this);
         initFragment();
     }
 
@@ -51,6 +56,7 @@ public class MainActivity extends BaseAvtivity {
     protected int getLayoutId() {
         return R.layout.activity_main;
     }
+
     @Override
     public void initListener() {
         rgMain.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -80,7 +86,6 @@ public class MainActivity extends BaseAvtivity {
         //设置默认布局
         rgMain.check(R.id.rb_home);
     }
-
 
 
     /**
@@ -171,4 +176,32 @@ public class MainActivity extends BaseAvtivity {
 
         return super.onKeyDown(keyCode, event);
     }
+
+    /**
+     * 解决安卓6.0以上版本不能读取外部存储权限的问题
+     *
+     * @param activity
+     * @return
+     */
+    public static boolean isGrantExternalRW(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && activity.checkSelfPermission(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            activity.requestPermissions(new String[]{
+
+//写入外部存储权限
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//读取外部存储权限
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//相机权限
+                    Manifest.permission.CAMERA,
+//定位权限
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, 1);
+
+            return false;
+        }
+        return true;
+    }
+
 }

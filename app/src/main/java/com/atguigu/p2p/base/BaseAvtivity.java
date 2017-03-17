@@ -1,6 +1,7 @@
 package com.atguigu.p2p.base;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -90,5 +91,8 @@ public abstract class BaseAvtivity extends AppCompatActivity {
         edit.putString("phone", userInfo.getData().getPhone());
         Log.e("TAG", "保存" + userInfo.getData().getName());
         edit.commit();
+    }
+
+    public void savaImage(Bitmap bitmap) {
     }
 }

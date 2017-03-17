@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.atguigu.p2p.LoginActivity;
 import com.atguigu.p2p.MainActivity;
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
@@ -106,9 +105,8 @@ public class BankingFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_settings:
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                Intent intent = new Intent(getActivity(), ImageSettingActivity.class);
                 startActivity(intent);
-                getActivity().finish();
                 break;
             case R.id.ll_touzi:
                 break;

@@ -66,6 +66,8 @@
             android:screenOrientation="behind"/>
         <activity android:name=".banking.WithDrawActivity">
         </activity>
+        <activity android:name=".banking.ImageSettingActivity">
+        </activity>
     </application>
 
 </manifest>
