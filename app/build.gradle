@@ -39,5 +39,7 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.9'
     //流布局生成
     compile 'com.zhy:flowlayout-lib:1.0.3'
-
+    compile files('libs/alipaysdk.jar')
+    compile files('libs/alipaysecsdk.jar')
+    compile files('libs/alipayutdid.jar')
 }
