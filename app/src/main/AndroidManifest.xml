@@ -68,6 +68,12 @@
         </activity>
         <activity android:name=".banking.ImageSettingActivity">
         </activity>
+        <activity android:name=".banking.PieChartActivity">
+        </activity>
+        <activity android:name=".banking.SineCosineActivity">
+        </activity>
+        <activity android:name=".banking.BarChartItemActivity">
+        </activity>
     </application>
 
 </manifest>

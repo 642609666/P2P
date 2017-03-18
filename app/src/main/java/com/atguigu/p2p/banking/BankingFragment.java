@@ -118,10 +118,13 @@ public class BankingFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.ll_touzi:
+                startActivity(new Intent(getActivity(), SineCosineActivity.class));
                 break;
             case R.id.ll_touzi_zhiguan:
+                startActivity(new Intent(getActivity(), PieChartActivity.class));
                 break;
             case R.id.ll_zichan:
+                startActivity(new Intent(getActivity(), BarChartItemActivity.class));
                 break;
             case R.id.recharge: //充值
                 startActivity(new Intent(getActivity(), ReChargeActivity.class));
