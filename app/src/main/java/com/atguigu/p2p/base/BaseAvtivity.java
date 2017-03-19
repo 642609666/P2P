@@ -2,11 +2,15 @@ package com.atguigu.p2p.base;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.atguigu.p2p.bean.DataBean;
 import com.atguigu.p2p.bean.UserInfo;
+import com.atguigu.p2p.utils.AppManager;
+
+import java.io.File;
 
 import butterknife.ButterKnife;
 
@@ -24,6 +28,7 @@ public abstract class BaseAvtivity extends AppCompatActivity {
         setContentView(getLayoutId());
         ButterKnife.inject(this);
 
+        AppManager.getInstance().addActivity(this);
         //初始化布局
         initTitle();
         //初始化fragment
@@ -54,6 +59,7 @@ public abstract class BaseAvtivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.reset(this);
+        AppManager.getInstance().remove(this);
     }
 
     /**
@@ -101,5 +107,33 @@ public abstract class BaseAvtivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
         return sp.getBoolean("update", false);
     }
+
+    //清楚所有的sp操作
+    public void clearSp() {
+        SharedPreferences user = getSharedPreferences("user_info", MODE_PRIVATE);
+        SharedPreferences image = getSharedPreferences("image", MODE_PRIVATE);
+        user.edit().clear().commit();
+        image.edit().clear().commit();
+    }
+
+    //删除file
+    public void clearFile() {
+        File fileDir = null;
+        //判断是否挂载了sd卡
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            //外部存储路径
+            fileDir = getExternalFilesDir("");
+        } else {
+            fileDir = getFilesDir();
+        }
+
+        //全路径
+        File path = new File(fileDir, "p2p_icon.png");
+
+        if (path.exists()) {
+            path.delete();//删除目录中的内容
+        }
+    }
+
 
 }

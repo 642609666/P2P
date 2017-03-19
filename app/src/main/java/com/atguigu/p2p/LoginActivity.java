@@ -114,10 +114,14 @@ public class LoginActivity extends BaseAvtivity {
                             //解析数据
                             UserInfo userInfo = JSON.parseObject(content, UserInfo.class);
                             //判断账号是否相同
-                            if (mSplit[0].equals(userInfo.getData().getPhone())) {
-                                //把名字传递过去
-                                userInfo.getData().setName(mSplit[2]);
-                                Log.e("TAG", "赋值名字进去");
+                            try {
+                                if (mSplit[0].equals(userInfo.getData().getPhone())) {
+                                    //把名字传递过去
+                                    userInfo.getData().setName(mSplit[2]);
+                                    Log.e("TAG", "赋值名字进去");
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                             //保存数据到sp
                             seveUser(userInfo);

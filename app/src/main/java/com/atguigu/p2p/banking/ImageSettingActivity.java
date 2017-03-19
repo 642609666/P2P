@@ -21,8 +21,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.atguigu.p2p.LoginActivity;
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseAvtivity;
+import com.atguigu.p2p.utils.AppManager;
 import com.atguigu.p2p.utils.BitmapUtils;
 
 import java.io.File;
@@ -31,6 +33,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import butterknife.InjectView;
+
+import static com.atguigu.p2p.R.id.btn_user_logout;
 
 public class ImageSettingActivity extends BaseAvtivity {
 
@@ -44,7 +48,7 @@ public class ImageSettingActivity extends BaseAvtivity {
     ImageView ivUserIcon;
     @InjectView(R.id.tv_user_change)
     TextView tvUserChange;
-    @InjectView(R.id.btn_user_logout)
+    @InjectView(btn_user_logout)
     Button btnUserLogout;
     private File mFilesDir;
 
@@ -73,11 +77,35 @@ public class ImageSettingActivity extends BaseAvtivity {
     @Override
     protected void initListener() {
 
+        baseBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         tvUserChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //切换用户头像
                 chagerUserIcon();
+            }
+        });
+
+        //退出用户
+        btnUserLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //将sp清除
+                clearFile();
+                //讲file删除
+                clearSp();
+                //跳转到登录界面
+                startActivity(new Intent(ImageSettingActivity.this, LoginActivity.class));
+
+                AppManager.getInstance().removeAll();
+                //先关闭
+                finish();
+
             }
         });
     }
