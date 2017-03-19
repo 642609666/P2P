@@ -74,6 +74,8 @@
         </activity>
         <activity android:name=".banking.BarChartItemActivity">
         </activity>
+        <activity android:name=".shoushi.GestureEditActivity"/>
+        <activity android:name=".shoushi.GestureVerifyActivity"/>
     </application>
 
 </manifest>

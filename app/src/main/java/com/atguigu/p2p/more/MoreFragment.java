@@ -1,5 +1,6 @@
 package com.atguigu.p2p.more;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
+import com.atguigu.p2p.shoushi.GestureEditActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -49,7 +52,29 @@ public class MoreFragment extends BaseFragment {
 
     @Override
     protected void initData(String json) {
+        //设置头布局
+        initTitle();
 
+        initListener();
+
+        startActivity(new Intent(getActivity(), GestureEditActivity.class));
+
+    }
+
+    private void initListener() {
+        toggleMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "手势图", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), GestureEditActivity.class));
+            }
+        });
+    }
+
+    private void initTitle() {
+        baseBack.setVisibility(View.GONE);
+        baseSetting.setVisibility(View.GONE);
+        baseTitle.setText("设置更多");
     }
 
     @Override
