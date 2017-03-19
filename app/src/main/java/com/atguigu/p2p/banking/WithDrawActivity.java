@@ -1,5 +1,8 @@
 package com.atguigu.p2p.banking;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseAvtivity;
+import com.atguigu.p2p.shoushi.GestureVerifyActivity;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -98,6 +102,15 @@ public class WithDrawActivity extends BaseAvtivity {
                 break;
             case R.id.btn_tixian:
                 Toast.makeText(WithDrawActivity.this, "提现", Toast.LENGTH_SHORT).show();
+                SharedPreferences sp = getSharedPreferences("tog_state", Context.MODE_PRIVATE);
+                boolean isOpen = sp.getBoolean("isOpen", false);
+                //验证手势密码
+                if (isOpen) {
+                    startActivity(new Intent(WithDrawActivity.this,
+                            GestureVerifyActivity.class));
+                } else {
+                    Toast.makeText(WithDrawActivity.this, "提现成功", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

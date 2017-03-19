@@ -196,9 +196,16 @@ public class MainActivity extends BaseAvtivity {
                     Manifest.permission.CAMERA,
 //定位权限
                     Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    //拨打电话权限
+                    Manifest.permission.CALL_PHONE,
+                    Manifest.permission.READ_CALL_LOG,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.WRITE_CALL_LOG,
+                    Manifest.permission.USE_SIP,
+                    Manifest.permission.PROCESS_OUTGOING_CALLS,
+                    Manifest.permission.ADD_VOICEMAIL
             }, 1);
-
             return false;
         }
         return true;

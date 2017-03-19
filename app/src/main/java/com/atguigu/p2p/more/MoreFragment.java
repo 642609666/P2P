@@ -1,21 +1,27 @@
 package com.atguigu.p2p.more;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.atguigu.p2p.R;
 import com.atguigu.p2p.base.BaseFragment;
 import com.atguigu.p2p.shoushi.GestureEditActivity;
+import com.atguigu.p2p.utils.AppNetConfig;
+import com.atguigu.p2p.utils.LoadNet;
 
-import butterknife.ButterKnife;
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.InjectView;
 
 /**
@@ -54,21 +60,110 @@ public class MoreFragment extends BaseFragment {
     protected void initData(String json) {
         //设置头布局
         initTitle();
-
+        //设置点击事件
         initListener();
-
-        startActivity(new Intent(getActivity(), GestureEditActivity.class));
-
+        //设置选择状态
+        setTogState();
     }
 
     private void initListener() {
-        toggleMore.setOnClickListener(new View.OnClickListener() {
+        toggleMore.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //打开手势识别器
+                if (isChecked) {
+                    //存储当前的状态,用来记录是否打开手势密码
+                    saveState(isChecked);
+
+                    //判断是否设置过
+                    if (!getIsSetting()) {
+
+                        //已经设置手势识别器
+                        setSetting(true);
+                        startActivity(new Intent(getActivity(), GestureEditActivity.class));
+
+                    }
+                } else {
+                    //关闭手势密码
+                    //存储当前的状态,用来记录是否打开手势密码
+                    saveState(isChecked);
+                }
+            }
+        });
+
+
+        tvMoreReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "手势图", Toast.LENGTH_SHORT).show();
+                //充值手势密码
+                //设置手势密码
                 startActivity(new Intent(getActivity(), GestureEditActivity.class));
             }
         });
+
+        //设置客服拨打电话
+        tvMorePhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                Uri uri = Uri.parse("tel:010-56253825");
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+
+        tvMoreFankui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = View.inflate(getActivity(), R.layout.dialog_fankui, null);
+                new AlertDialog.Builder(getActivity())
+                        .setView(view)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Map<String, String> map = new HashMap<>();
+                                map.put("department", "");
+                                map.put("content", "");
+                                LoadNet.getDataNet(AppNetConfig.FEEDBACK, map, new LoadNet.OnGetNet() {
+                                    @Override
+                                    public void onSuccess(String content) {
+                                        //提交是否成功
+                                    }
+
+                                    @Override
+                                    public void onFailure(String content) {
+
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+        });
+    }
+
+    private void setSetting(boolean setting) {
+        SharedPreferences sp = getActivity().getSharedPreferences("setting",
+                Context.MODE_PRIVATE);
+        sp.edit().putBoolean("isSetting", setting).commit();
+    }
+
+    private void saveState(boolean isOpen) {
+        SharedPreferences sp = getActivity().getSharedPreferences("tog_state", Context.MODE_PRIVATE);
+        sp.edit().putBoolean("isOpen", isOpen).commit();
+    }
+
+    public boolean getIsSetting() {
+        SharedPreferences sp
+                = getActivity().getSharedPreferences("setting",
+                Context.MODE_PRIVATE);
+        return sp.getBoolean("isSetting", false);
+    }
+
+    public boolean getState() {
+        SharedPreferences sp = getActivity().getSharedPreferences("tog_state", Context.MODE_PRIVATE);
+        return sp.getBoolean("isOpen", false);
     }
 
     private void initTitle() {
@@ -87,17 +182,10 @@ public class MoreFragment extends BaseFragment {
         return null;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.inject(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
+    //设置button状态
+    private void setTogState() {
+        SharedPreferences sp = getActivity().getSharedPreferences("tog_state", Context.MODE_PRIVATE);
+        boolean isOpen = sp.getBoolean("isOpen", false);
+        toggleMore.setChecked(isOpen);
     }
 }
